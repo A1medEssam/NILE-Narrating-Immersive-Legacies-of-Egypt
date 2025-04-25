@@ -5,7 +5,7 @@ from langchain_chroma import Chroma
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 
-from langchain_text_splitters import RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter  # ✅ Fixed Import
+from langchain_text_splitters import RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter  
 
 #from langchain_text_splitters import SpacyTextSplitter
 from langchain_community.retrievers import BM25Retriever
@@ -43,8 +43,6 @@ from langchain_ollama import OllamaLLM
 
 from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers.multi_query import MultiQueryRetriever  
-
-# -----| PREPROCESSING |----------
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
@@ -89,19 +87,19 @@ def preprocess_documents(documents):
 
     return documents
 
-def store_in_chroma(chunks):
-    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
-    vector_store = Chroma.from_documents(
-        documents=chunks,
-        embedding=embedding_model,
-        persist_directory="./chroma_db"  
-    )
+#def store_in_chroma(chunks):
+#    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+#    vector_store = Chroma.from_documents(
+#        documents=chunks,
+#        embedding=embedding_model,
+#        persist_directory="./chroma_db"  
+#    )
     
-    return vector_store.as_retriever()
+#    return vector_store.as_retriever()
 def onChain():
-    #llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key="AIzaSyDH6MKdZLY5DFwPGu2YbzRsah2mrC9LLq4")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key="AIzaSyDISh2I2N54owowdHykqUtwfAyMh8fosKk")
     #llm = Ollama(model="llama2")
-    llm = OllamaLLM(model="llama2")
+    #llm = OllamaLLM(model="llama2")
 
     pdf_path = "the_life_and_times_of_Ramesses_II.pdf"
     
@@ -152,10 +150,9 @@ def onChain():
     prompt = ChatPromptTemplate.from_template(prompt_template)
     
     chain = (
-        {"context": multi_query_retriever | bm25_retriever | format_docs, "input": RunnablePassthrough()}  # ✅ Fixed `retriever`
+        {"context": multi_query_retriever | bm25_retriever | format_docs, "input": RunnablePassthrough()} 
         | prompt
         | llm
         | StrOutputParser()
     )
     return chain
-

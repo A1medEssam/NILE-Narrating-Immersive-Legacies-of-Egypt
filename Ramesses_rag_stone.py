@@ -134,7 +134,7 @@ def upload_data(pdf_path="the_life_and_times_of_Ramesses_II.pdf"):
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
     client = QdrantClient(
         url="https://81561505-cd96-41fa-8e5b-7d1c75aafe26.us-east4-0.gcp.cloud.qdrant.io:6333",
-        api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.dH6HuVfJZaEyFRMEaxkNyjtlTTlCXSy8YrYgpMgZ2r4",
+        api_key=os.getenv("QDRANT_API_KEY"),
         prefer_grpc=True
     )
     collection_name = "cleaned_ramesses_ii_docs"
@@ -152,7 +152,7 @@ def upload_data(pdf_path="the_life_and_times_of_Ramesses_II.pdf"):
         documents=documents,
         embedding=embedding_model,
         url="https://81561505-cd96-41fa-8e5b-7d1c75aafe26.us-east4-0.gcp.cloud.qdrant.io:6333",
-        api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.dH6HuVfJZaEyFRMEaxkNyjtlTTlCXSy8YrYgpMgZ2r4",
+        api_key=os.getenv("QDRANT_API_KEY"),
         collection_name=collection_name,
         prefer_grpc=True
     )
@@ -163,7 +163,7 @@ def get_retriever():
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
     client = QdrantClient(
         url="https://81561505-cd96-41fa-8e5b-7d1c75aafe26.us-east4-0.gcp.cloud.qdrant.io:6333",
-        api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.dH6HuVfJZaEyFRMEaxkNyjtlTTlCXSy8YrYgpMgZ2r4",
+        api_key=os.getenv("QDRANT_API_KEY"),
         prefer_grpc=True
     )
     collection_name = "cleaned_ramesses_ii_docs"

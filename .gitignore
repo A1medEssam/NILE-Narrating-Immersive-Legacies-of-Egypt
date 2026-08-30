@@ -5,3 +5,10 @@ venv_llm/
 Vers/
 
 *.pdf
+
+# Added by setup script
+__pycache__/
+*.pyc
+chroma_db/
+.env
+*.pdf
